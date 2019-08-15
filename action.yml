@@ -1,10 +1,13 @@
-name: 'Node 12 Template Action'
-description: 'Get started with Node actions'
-author: 'GitHub'
-inputs: 
-  myInput:
-    description: 'Input to use'
-    default: 'world'
+name: 'Chrome Addon Action'
+description: 'Upload your addon to the Chrome Web Store'
+author: 'Thomas McNiven'
+inputs:
+  extension:
+    description: 'ID of the extension that you are updating'
+  zip:
+    description: 'Path to a .zip of your addon'
+  service:
+    description: 'Your Google API service account JSON data'
 runs:
   using: 'node12'
   main: 'lib/main.js'
