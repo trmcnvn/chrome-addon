@@ -13,6 +13,7 @@ function generateJWT(json: any) {
     iat: issuedAt,
     exp: issuedAt + 60
   };
+  core.debug(`JWT: ${JSON.stringify(payload)}`);
   return jwt.sign(payload, json.private_key, {
     algorithm: 'RS256'
   });
@@ -29,23 +30,25 @@ async function requestToken(jwt: string) {
 async function createAddon(zip: string, token: string) {
   const endpoint = `https://www.googleapis.com/upload/chromewebstore/v1.1/items`;
   const body = fs.readFileSync(path.resolve(zip));
-  await axios.post(endpoint, body, {
+  const response = await axios.post(endpoint, body, {
     headers: {
       Authorization: `Bearer ${token}`,
       'x-goog-api-version': '2'
     }
   });
+  core.debug(`Response: ${JSON.stringify(response.data)}`);
 }
 
 async function updateAddon(id: string, zip: string, token: string) {
   const endpoint = `https://www.googleapis.com/upload/chromewebstore/v1.1/items/${id}`;
   const body = fs.readFileSync(path.resolve(zip));
-  await axios.put(endpoint, body, {
+  const response = await axios.put(endpoint, body, {
     headers: {
       Authorization: `Bearer ${token}`,
       'x-goog-api-version': '2'
     }
   });
+  core.debug(`Response: ${JSON.stringify(response.data)}`);
 }
 
 async function run() {
@@ -57,6 +60,7 @@ async function run() {
     const json = JSON.parse(service);
     const jwt = generateJWT(json);
     const token = await requestToken(jwt);
+    core.debug(`Token: ${token}`);
 
     if (extension && extension.length > 0) {
       await updateAddon(extension, zip, token);
