@@ -1,9 +1,24 @@
-# JavaScript Action Template
+# Chrome Addon Action
 
-This template offers an easy way to get started writing a javascript action with TypeScript compile time support, unit testing with Jest and using the GitHub Actions Toolkit.
+This action will publish your addon to the Chrome Web Store.
 
-## Getting Started
+## Usage
 
-See the walkthrough located [here](https://github.com/actions/toolkit/blob/master/docs/javascript-action.md).
+See [action.yml](action.yml)
 
-In addition to walking your through how to create an action, it also provides strategies for versioning, releasing and referencing your actions.
+```yaml
+steps:
+  - uses: trmcnvn/chrome-addon@v1
+    with:
+      # extension is only necessary when updating an existing addon,
+      # omitting it will create a new addon
+      extension: abcdefg
+      zip: build/my-addon.zip
+      client-id: ${{ secrets.CHROME_CLIENT_ID }}
+      client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+      refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+```
+
+## License
+
+The scripts and documentation in this project are released under the [MIT License](LICENSE)

@@ -1,8 +1,8 @@
 {
-  "name": "node12-template-action",
+  "name": "chrome-addon",
   "version": "0.0.0",
   "private": true,
-  "description": "Node 12 template action",
+  "description": "Upload your addon to the Chrome Web Store",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -10,21 +10,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/node12-template.git"
+    "url": "git+https://github.com/trmcnvn/chrome-addon.git"
   },
   "keywords": [
     "actions",
-    "node",
+    "chrome",
     "setup"
   ],
-  "author": "GitHub",
+  "author": "Thomas McNiven",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.0.0",
-    "@actions/exec": "^1.0.0",
-    "@actions/github": "^1.0.0",
-    "@actions/io": "^1.0.0",
-    "@actions/tool-cache": "^1.0.0",
     "axios": "^0.19.0",
     "jsonwebtoken": "^8.5.1",
     "semver": "^6.1.1"
