@@ -15,7 +15,7 @@ function generateJWT(json: any) {
   };
   return jwt.sign(payload, json.private_key, {
     algorithm: 'RS256',
-    kid: json.private_key_id
+    keyid: json.private_key_id
   });
 }
 
