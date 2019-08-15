@@ -14,7 +14,7 @@ function generateJWT(publisher: string, json: any) {
     iat: issuedAt,
     exp: issuedAt + 60
   };
-  core.debug(`JWT Payload: ${payload}`);
+  core.debug(`JWT Payload: ${JSON.stringify(payload)}`);
   return jwt.sign(payload, json.private_key, {
     algorithm: 'RS256'
   });
@@ -22,7 +22,7 @@ function generateJWT(publisher: string, json: any) {
 
 async function requestToken(jwt: string) {
   const response = await axios.post('https://www.googleapis.com/oauth2/v4/token', {
-    grant_type: encodeURIComponent('urn:ietf:params:oauth:grant-type:jwt-bearer'),
+    grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
     assertion: jwt
   });
   return response.data.access_token;
