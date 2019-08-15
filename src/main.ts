@@ -4,18 +4,18 @@ import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
 
-function generateJWT(json: any) {
+function generateJWT(publisher: string, json: any) {
   const issuedAt = Math.floor(Date.now() / 1000);
   const payload = {
     iss: json.client_email,
+    sub: publisher,
     scope: 'https://www.googleapis.com/auth/chromewebstore',
     aud: 'https://www.googleapis.com/oauth2/v4/token',
     iat: issuedAt,
     exp: issuedAt + 3600
   };
   return jwt.sign(payload, json.private_key, {
-    algorithm: 'RS256',
-    keyid: json.private_key_id
+    algorithm: 'RS256'
   });
 }
 
@@ -54,11 +54,12 @@ async function updateAddon(id: string, zip: string, token: string) {
 async function run() {
   try {
     const service = core.getInput('service', { required: true });
-    const extension = core.getInput('extension');
+    const publisher = core.getInput('publisher', { required: true });
     const zip = core.getInput('zip', { required: true });
+    const extension = core.getInput('extension');
 
     const json = JSON.parse(service);
-    const jwt = generateJWT(json);
+    const jwt = generateJWT(publisher, json);
     const token = await requestToken(jwt);
 
     if (extension && extension.length > 0) {

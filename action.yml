@@ -8,6 +8,8 @@ inputs:
     description: 'Path to a .zip of your addon'
   service:
     description: 'Your Google API service account JSON data'
+  publisher:
+    description: 'An email address that has publishing authority for this extension'
 runs:
   using: 'node12'
   main: 'lib/main.js'
