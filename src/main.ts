@@ -11,17 +11,17 @@ function generateJWT(json: any) {
     scope: 'https://www.googleapis.com/auth/chromewebstore',
     aud: 'https://www.googleapis.com/oauth2/v4/token',
     iat: issuedAt,
-    exp: issuedAt + 60
+    exp: issuedAt + 3600
   };
-  core.debug(`JWT: ${JSON.stringify(payload)}`);
   return jwt.sign(payload, json.private_key, {
-    algorithm: 'RS256'
+    algorithm: 'RS256',
+    kid: json.private_key_id
   });
 }
 
 async function requestToken(jwt: string) {
   const response = await axios.post('https://www.googleapis.com/oauth2/v4/token', {
-    grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+    grant_type: encodeURIComponent('urn:ietf:params:oauth:grant-type:jwt-bearer'),
     assertion: jwt
   });
   return response.data.access_token;
@@ -60,7 +60,6 @@ async function run() {
     const json = JSON.parse(service);
     const jwt = generateJWT(json);
     const token = await requestToken(jwt);
-    core.debug(`Token: ${token}`);
 
     if (extension && extension.length > 0) {
       await updateAddon(extension, zip, token);
