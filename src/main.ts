@@ -12,7 +12,7 @@ function generateJWT(publisher: string, json: any) {
     scope: 'https://www.googleapis.com/auth/chromewebstore',
     aud: 'https://www.googleapis.com/oauth2/v4/token',
     iat: issuedAt,
-    exp: issuedAt + 3600
+    exp: issuedAt + 60
   };
   return jwt.sign(payload, json.private_key, {
     algorithm: 'RS256'
