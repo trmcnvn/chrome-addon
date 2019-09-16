@@ -19,6 +19,10 @@ steps:
       refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
 ```
 
+## Google Credentials
+
+For information on how to retreive these credentials check out this guide [here](https://github.com/DrewML/chrome-webstore-upload/blob/master/How%20to%20generate%20Google%20API%20keys.md)
+
 ## License
 
 The scripts and documentation in this project are released under the [MIT License](LICENSE)
