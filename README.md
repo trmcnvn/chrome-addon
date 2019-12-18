@@ -8,7 +8,7 @@ See [action.yml](action.yml)
 
 ```yaml
 steps:
-  - uses: trmcnvn/chrome-addon@v1
+  - uses: trmcnvn/chrome-addon@v2
     with:
       # extension is only necessary when updating an existing addon,
       # omitting it will create a new addon
