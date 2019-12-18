@@ -20,7 +20,8 @@ async function createAddon(zip: string, token: string) {
     headers: {
       Authorization: `Bearer ${token}`,
       'x-goog-api-version': '2'
-    }
+    },
+    maxContentLength: Infinity
   });
   core.debug(`Response: ${JSON.stringify(response.data)}`);
 }
@@ -32,7 +33,8 @@ async function updateAddon(id: string, zip: string, token: string) {
     headers: {
       Authorization: `Bearer ${token}`,
       'x-goog-api-version': '2'
-    }
+    },
+    maxContentLength: Infinity
   });
   core.debug(`Response: ${JSON.stringify(response.data)}`);
 }
