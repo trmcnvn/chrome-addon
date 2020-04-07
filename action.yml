@@ -12,6 +12,8 @@ inputs:
     description: 'Google OAuth2 client secret'
   refresh-token:
     description: 'Google OAuth2 refresh token'
+  publish-target:
+    description: 'Optional: "default" | "trustedTesters"'
 runs:
   using: 'node12'
   main: 'lib/main.js'
