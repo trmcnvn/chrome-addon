@@ -39,11 +39,11 @@ async function updateAddon(id: string, zip: string, token: string) {
   core.debug(`Response: ${JSON.stringify(response.data)}`);
 }
 
-async function publishAddon(id: string, token: string) {
+async function publishAddon(id: string, token: string, publishTarget: string) {
   const endpoint = `https://www.googleapis.com/chromewebstore/v1.1/items/${id}/publish`;
   const response = await axios.post(
     endpoint,
-    { target: 'default' },
+    { target: publishTarget },
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -61,16 +61,17 @@ async function run() {
     const refresh = core.getInput('refresh-token', { required: true });
     const zip = core.getInput('zip', { required: true });
     const extension = core.getInput('extension');
+    const publishTarget = core.getInput('publish-target');
 
     const token = await requestToken(clientId, clientSecret, refresh);
     core.debug(`Token: ${token}`);
 
     if (extension && extension.length > 0) {
       await updateAddon(extension, zip, token);
-      await publishAddon(extension, token);
+      await publishAddon(extension, token, publishTarget);
     } else {
       await createAddon(zip, token);
-      await publishAddon(extension, token);
+      await publishAddon(extension, token, publishTarget);
     }
   } catch (error) {
     core.setFailed(error.message);
