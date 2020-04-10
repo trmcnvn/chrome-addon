@@ -61,7 +61,7 @@ async function run() {
     const refresh = core.getInput('refresh-token', { required: true });
     const zip = core.getInput('zip', { required: true });
     const extension = core.getInput('extension');
-    const publishTarget = core.getInput('publish-target') || "default";
+    const publishTarget = core.getInput('publish-target');
 
     const token = await requestToken(clientId, clientSecret, refresh);
     core.debug(`Token: ${token}`);
