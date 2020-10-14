@@ -1,0 +1,20 @@
+name: Update dist file
+on:
+  push:
+    branches: [master]
+jobs:
+  test:
+    name: Update dist file
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - run: npm install
+      - run: npm run dist
+      - uses: test-room-7/action-update-file@v1
+        with:
+          file-path: dist/index.js
+          commit-msg: Update dist file
+          github-token: ${{ secrets.GITHUB_TOKEN }}
