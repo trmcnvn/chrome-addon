@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "description": "Upload your addon to the Chrome Web Store",
-  "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "dist": "tsc && ncc build lib/main.js",
+    "test": "jest",
+    "version": "npm run build && git add dist"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "@types/jest": "^24.0.17",
     "@types/node": "^12.7.2",
     "@types/semver": "^6.0.0",
+    "@vercel/ncc": "^0.24.1",
     "jest": "^24.8.0",
     "jest-circus": "^24.7.1",
     "ts-jest": "^24.0.2",
