@@ -7,13 +7,13 @@ inputs:
   zip:
     description: 'Path to a .zip of your addon'
   client-id:
-    description: 'Google OAuth2 client id'
+    description: 'Google OAuth2 client ID'
   client-secret:
     description: 'Google OAuth2 client secret'
   refresh-token:
     description: 'Google OAuth2 refresh token'
   publish-target:
-    description: 'Chrome Stroe publish target "default" | "trustedTesters"'
+    description: 'Chrome Store publish target "default" | "trustedTesters"'
     default: 'default'
 runs:
   using: 'node12'
