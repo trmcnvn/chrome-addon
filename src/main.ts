@@ -3,13 +3,14 @@ import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
 
-async function requestToken(id: string, secret: string, refresh: string) {
-  const response = await axios.post('https://www.googleapis.com/oauth2/v4/token', {
+async function requestToken(id: string, refresh: string) {
+  const endpoint = `https://www.googleapis.com/oauth2/v4/token`;
+  const response = await axios.post(endpoint, {
     client_id: id,
-    client_secret: secret,
-    refresh_token: refresh,
-    grant_type: 'refresh_token'
+	refresh_token: refresh,
+	grant_type: 'refresh_token'
   });
+  core.debug(`Token: ${response.data.access_token}`);
   return response.data.access_token;
 }
 
@@ -41,30 +42,25 @@ async function updateAddon(id: string, zip: string, token: string) {
 
 async function publishAddon(id: string, token: string, publishTarget: string) {
   const endpoint = `https://www.googleapis.com/chromewebstore/v1.1/items/${id}/publish`;
-  const response = await axios.post(
-    endpoint,
-    { target: publishTarget },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'x-goog-api-version': '2'
-      }
+  const response = await axios.post(endpoint, { target: publishTarget }, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'x-goog-api-version': '2'
     }
-  );
+  });
   core.debug(`Response: ${JSON.stringify(response.data)}`);
 }
 
 async function run() {
   try {
     const clientId = core.getInput('client-id', { required: true });
-    const clientSecret = core.getInput('client-secret', { required: true });
     const refresh = core.getInput('refresh-token', { required: true });
+
     const zip = core.getInput('zip', { required: true });
     const extension = core.getInput('extension');
     const publishTarget = core.getInput('publish-target');
 
-    const token = await requestToken(clientId, clientSecret, refresh);
-    core.debug(`Token: ${token}`);
+    const token = await requestToken(clientId, refresh);
 
     if (extension && extension.length > 0) {
       await updateAddon(extension, zip, token);
@@ -74,7 +70,7 @@ async function run() {
       await publishAddon(extension, token, publishTarget);
     }
   } catch (error) {
-    core.setFailed(error.message);
+    core.setFailed((error as Error).message);
   }
 }
 
